@@ -1,0 +1,19 @@
+{
+  "title": "HTML5 Game Prototype",
+  "name": "game",
+  "version": "0.0.1",
+  "description": "game",
+  "author": "Kris Urbas, @krzysu",
+  "website": "www.myviews.pl",
+  "tags": "",
+  "licenses": {
+    "type": "MIT"
+  },
+
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-coffee": "latest"
+  }
+}
