@@ -1,33 +1,45 @@
 window.Game or= {}
 
 class Game.Hero
-  constructor: (data) ->
-    @oldX = 10
-    @newX = 10
-    @oldY = 10
-    @newY = 10
+  constructor: (x = 10, y = 10, speed = 1) ->
+    @currentPosition =
+      x: x
+      y: y
+
+    @targetPosition =
+      x: x
+      y: y
+
+    @speed = speed
 
   goTo: (x, y) ->
-    @newX = x
-    @newY = y
+    @targetPosition =
+      x: x
+      y: y
 
-  draw: (ctx) ->
-    newX = @newX
-    newY = @newY
-    oldX = @oldX
-    oldY = @oldY
+  draw: (canvasContext) ->
+    @count()
 
-    if(newX != oldX && newX > oldX)
-      @oldX++
+    canvasContext.fillStyle = "rgb(200,0,0)"
+    canvasContext.fillRect(@currentPosition.x, @currentPosition.y, 10, 10)
 
-    else if(newX != oldX && newX < oldX)
-      @oldX--
+  count: ->
+    cur = @currentPosition
+    tar = @targetPosition
+    speed = @speed
 
-    if(newY != oldY && newY > oldY)
-      @oldY++
+    if (Math.abs(cur.x - tar.x) < speed) && (Math.abs(cur.y - tar.y) < speed)
+      return
 
-    else if(newY != oldY && newY < oldY)
-      @oldY--
+    if(tar.x != cur.x && tar.x > cur.x)
+      cur.x += speed
 
-    ctx.fillStyle = "rgb(200,0,0)"
-    ctx.fillRect(oldX, oldY, 10, 10)
+    else if(tar.x != cur.x && tar.x < cur.x)
+      cur.x -= speed
+
+    if(tar.y != cur.y && tar.y > cur.y)
+      cur.y += speed
+
+    else if(tar.y != cur.y && tar.y < cur.y)
+      cur.y -= speed
+

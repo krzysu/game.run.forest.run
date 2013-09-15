@@ -1,20 +1,37 @@
-do ->
-  canvas = document.getElementById('canvas')
-  ctx = canvas.getContext('2d')
+window.Game or= {}
 
-  hero = new Game.Hero()
+class Game.Canvas
+  constructor: (options) ->
+    canvas = document.createElement('canvas')
+    @width = canvas.width = window.innerWidth
+    @height = canvas.height = window.innerHeight
+    document.getElementById(options.parentId).appendChild(canvas)
+    @context = canvas.getContext('2d')
 
-  onMouseDown = (e) ->
+    # game objects
+    @hero = new Game.Hero()
+
+    # init canvas events
+    canvas.addEventListener("mousedown", @onMouseDown, false)
+
+    # game loop
+    setInterval(@draw, 10)
+
+  onMouseDown: (e) =>
     x = e.pageX
     y = e.pageY
-    hero.goTo(x, y)
-    console.log('clicked', x, y)
 
-  draw = ->
-    ctx.clearRect(0,0,300,300)
-    hero.draw(ctx)
+    @hero.goTo(x, y)
+    # console.log('clicked', x, y)
 
-  canvas.addEventListener("mousedown", onMouseDown, false)
+  draw: =>
+    @context.clearRect(0, 0, @width, @height)
 
-  setInterval(draw, 10)
+    # draw objects
+    @hero.draw(@context)
 
+
+
+do ->
+  new Game.Canvas
+    parentId: 'game-wrapper'
