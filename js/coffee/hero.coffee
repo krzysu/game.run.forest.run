@@ -1,16 +1,19 @@
 window.Game or= {}
 
 class Game.Hero
-  constructor: (x = 10, y = 10, speed = 1) ->
-    @currentPosition =
-      x: x
-      y: y
+  constructor: (options) ->
+    for key, option of options
+      @[key] = option
+
+    # must have values
+    @speed or= 1
+    @color or= 'black'
+    @x or= 10
+    @y or= 10
 
     @targetPosition =
-      x: x
-      y: y
-
-    @speed = speed
+      x: @x
+      y: @y
 
   goTo: (x, y) ->
     @targetPosition =
@@ -20,26 +23,25 @@ class Game.Hero
   draw: (canvasContext) ->
     @count()
 
-    canvasContext.fillStyle = "rgb(200,0,0)"
-    canvasContext.fillRect(@currentPosition.x, @currentPosition.y, 10, 10)
+    canvasContext.fillStyle = @color
+    canvasContext.fillRect(@x, @y, 10, 10)
 
   count: ->
-    cur = @currentPosition
     tar = @targetPosition
-    speed = @speed
+    speed = @speed || 1
 
-    if (Math.abs(cur.x - tar.x) < speed) && (Math.abs(cur.y - tar.y) < speed)
+    if (Math.abs(@x - tar.x) < speed) && (Math.abs(@y - tar.y) < speed)
       return
 
-    if(tar.x != cur.x && tar.x > cur.x)
-      cur.x += speed
+    if(tar.x != @x && tar.x > @x)
+      @x += speed
 
-    else if(tar.x != cur.x && tar.x < cur.x)
-      cur.x -= speed
+    else if(tar.x != @x && tar.x < @x)
+      @x -= speed
 
-    if(tar.y != cur.y && tar.y > cur.y)
-      cur.y += speed
+    if(tar.y != @y && tar.y > @y)
+      @y += speed
 
-    else if(tar.y != cur.y && tar.y < cur.y)
-      cur.y -= speed
+    else if(tar.y != @y && tar.y < @y)
+      @y -= speed
 

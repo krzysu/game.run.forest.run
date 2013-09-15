@@ -9,7 +9,23 @@ class Game.Canvas
     @context = canvas.getContext('2d')
 
     # game objects
-    @hero = new Game.Hero()
+    @hero = new Game.Hero
+      x: @width / 2
+      y: @height / 2
+      speed: 2
+
+    # bad guys
+    @dogs = []
+
+    for i in [0..10]
+      dog = new Game.Hero
+        x: @width - i * 20
+        y: @height - i * 20
+        speed: i / 10
+        color: 'red'
+
+      @dogs.push dog
+
 
     # init canvas events
     canvas.addEventListener("mousedown", @onMouseDown, false)
@@ -22,13 +38,19 @@ class Game.Canvas
     y = e.pageY
 
     @hero.goTo(x, y)
-    # console.log('clicked', x, y)
 
   draw: =>
     @context.clearRect(0, 0, @width, @height)
 
+    # game logic
+    for dog in @dogs
+      dog.goTo(@hero.x, @hero.y)
+
     # draw objects
     @hero.draw(@context)
+
+    for dog in @dogs
+      dog.draw(@context)
 
 
 
