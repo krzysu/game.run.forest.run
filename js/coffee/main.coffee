@@ -28,7 +28,10 @@ class Game.Canvas
 
 
     # init canvas events
-    canvas.addEventListener("mousedown", @onMouseDown, false)
+    unless @isTouchDevice()
+      canvas.addEventListener('mousedown', @onMouseDown, false)
+    else
+      canvas.addEventListener('touchstart', @onMouseDown, false)
 
     # game loop
     setInterval(@draw, 10)
@@ -51,6 +54,9 @@ class Game.Canvas
 
     for dog in @dogs
       dog.draw(@context)
+
+  isTouchDevice: ->
+    return 'ontouchstart' in window || 'onmsgesturechange' in window
 
 
 

@@ -57,7 +57,8 @@
 }).call(this);
 
 (function() {
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   window.Game || (window.Game = {});
 
@@ -86,7 +87,11 @@
         });
         this.dogs.push(dog);
       }
-      canvas.addEventListener("mousedown", this.onMouseDown, false);
+      if (!this.isTouchDevice()) {
+        canvas.addEventListener('mousedown', this.onMouseDown, false);
+      } else {
+        canvas.addEventListener('touchstart', this.onMouseDown, false);
+      }
       setInterval(this.draw, 10);
     }
 
@@ -113,6 +118,10 @@
         _results.push(dog.draw(this.context));
       }
       return _results;
+    };
+
+    Canvas.prototype.isTouchDevice = function() {
+      return __indexOf.call(window, 'ontouchstart') >= 0 || __indexOf.call(window, 'onmsgesturechange') >= 0;
     };
 
     return Canvas;

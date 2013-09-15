@@ -27,6 +27,16 @@ module.exports = function(grunt) {
       }
     },
 
+    connect: {
+      server: {
+        options: {
+          port: 9001,
+          base: '.',
+          hostname: '*'
+        }
+      }
+    },
+
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -43,9 +53,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+
 
   // Default task.
   // grunt.registerTask('build', ['jshint', 'coffee', 'concat', 'uglify']);
+  grunt.registerTask('server', ['connect:server:keepalive']);
 
 };
 
